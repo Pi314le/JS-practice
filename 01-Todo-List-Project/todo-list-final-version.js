@@ -1,9 +1,9 @@
-//step 10: generate HTML code and make it interactive: delete todoItem
-//step 11: create due date feature
-//step 12: add css
+// Optimizing code
+// 1. switch to .forEach() to loop through todoList array (这个数组名记不到了)
+// 2. use arrow function
+// 3. switch eventlistener attribute to addEventListener() method
 
 const todoList = [
-  //using object to group todoName and date together
   {
     name: "Buy groceries",
     dueDate: "2023-01-01",
@@ -17,12 +17,15 @@ const todoList = [
     dueDate: "2023-01-03",
   },
 ];
-// const todoList = []; // empty array
+// const todoList = [];
 
-renderTodoList(); // call the function to render the list on page load
+renderTodoList();
+
+document.querySelector(".js-add-todo-button").addEventListener("click", () => {
+  addTodo();
+});
 
 function addTodo() {
-  //value property used for text box. the value is a string
   const inputElement = document.querySelector(".js-input-todo-name");
   const getTodoName = inputElement.value;
 
@@ -32,34 +35,37 @@ function addTodo() {
     name: getTodoName,
     dueDate: getTodoDueDate,
   });
-  // console.log(todoList);
 
   inputElement.value = "";
   dueDateInputElement.value = "";
 
-  renderTodoList(); // call the function to render the list after adding a new todo
+  renderTodoList();
 }
 
 function renderTodoList() {
-  let todoListHTML = ""; // accumulator pattern to store HTML code
-  for (let i = 0; i < todoList.length; i++) {
-    const todoItemObject = todoList[i];
-    // destructuring the object to get the name and date
+  let todoListHTML = "";
+  todoList.forEach((todoItemObject, index) => {
     const { name: todoItemName, dueDate: todoItemDueDate } = todoItemObject;
 
     const todoItemHTML = `
-      <div>${todoItemName}</div>
+    <div>${todoItemName}</div>
       <div>${todoItemDueDate}</div>
-      <button onclick="
-        todoList.splice(${i}, 1); // remove the item from the array
-        renderTodoList(); // call the function to render the list after deleting the todo
-      " class="delete-todo-button">Delete</button>
-
+      <button class="delete-todo-button js-delete-todo-button">Delete</button>
       `;
-    todoListHTML += todoItemHTML; // add the new HTML to the accumulator
-  }
-  // console.log("🚀 ~ todoListHTML:", todoListHTML);
+    todoListHTML += todoItemHTML;
+  });
 
   const addTodoListHtml = document.querySelector(".js-add-todoList-html");
-  addTodoListHtml.innerHTML = todoListHTML; // put the HTML on the web page
+  addTodoListHtml.innerHTML = todoListHTML;
+  // can't put this delete button eventlistener outside renderTodoList().
+  // because this function will be called again and again: click delete->render click add->render
+  // once you click anyone of them, renderTodoList() will be called again, but addeventlistener() is not in it -> that is addEventlistener() in every button will be removed
+  document
+    .querySelectorAll(".js-delete-todo-button")
+    .forEach((deleteButton, index) => {
+      deleteButton.addEventListener("click", () => {
+        todoList.splice(index, 1);
+        renderTodoList();
+      });
+    });
 }
