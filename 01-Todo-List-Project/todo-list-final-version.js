@@ -60,6 +60,8 @@ function renderTodoList() {
   // can't put this delete button eventlistener outside renderTodoList().
   // because this function will be called again and again: click delete->render click add->render
   // once you click anyone of them, renderTodoList() will be called again, but addeventlistener() is not in it -> that is addEventlistener() in every button will be removed
+
+  // querySelectorAll() returns a list of all elements
   document
     .querySelectorAll(".js-delete-todo-button")
     .forEach((deleteButton, index) => {
