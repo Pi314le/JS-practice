@@ -1,3 +1,4 @@
+// step 2
 // 1. generate HTML with data
 // 2. combine the HTML together
 // 3. put it on the web page (using the DOM)
@@ -56,9 +57,33 @@ products.forEach((product) => {
         Added
         </div>
 
-        <button class="add-to-cart-button button-primary">Add to Cart</button>
+        <button class="add-to-cart-button button-primary js-add-to-cart" data-product-id="${
+          product.id
+        }">Add to Cart</button>
     </div>
   `;
 });
 
 document.querySelector(".js-products-grid").innerHTML = productsHTML;
+
+// step 3
+document.querySelectorAll(".js-add-to-cart").forEach((addToCartButton) => {
+  addToCartButton.addEventListener("click", () => {
+    const productId = addToCartButton.dataset.productId;
+
+    let matchingItem;
+    cart.forEach((item) => {
+      if (productId === item.productId) {
+        matchingItem = item;
+      }
+    });
+
+    if (matchingItem) {
+      matchingItem.quantity++;
+    } else {
+      cart.push({ productId: productId, quantity: 1 });
+    }
+    console.log(cart);
+  });
+});
+// separete the cart data into other file
