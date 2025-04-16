@@ -1,3 +1,5 @@
+import { cart } from "../data/cart.js";
+
 // step 2
 // 1. generate HTML with data
 // 2. combine the HTML together
