@@ -34,11 +34,15 @@ export function removeFromCart(productId) {
   cart.forEach((cartItem) => {
     if (cartItem.productId !== productId) {
       newCart.push(cartItem);
+    } else if (cartItem.quantity > 1) {
+      cartItem.quantity--;
+      newCart.push(cartItem);
     } else {
-      if (cartItem.quantity > 1) {
-        cartItem.quantity--;
-        newCart.push(cartItem);
-      }
+      // remove cart item from cart summary HTML
+      const container = document.querySelector(
+        `.js-cart-item-container-${productId}`
+      );
+      container.remove();
     }
   });
 
