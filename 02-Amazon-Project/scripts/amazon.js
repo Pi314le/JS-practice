@@ -1,4 +1,4 @@
-import { cart } from "../data/cart.js";
+import { cart, addToCart } from "../data/cart.js";
 import { products } from "../data/products.js";
 // step 2
 // 1. generate HTML with data
@@ -69,29 +69,25 @@ products.forEach((product) => {
 document.querySelector(".js-products-grid").innerHTML = productsHTML;
 
 // step 3
-// and separate the cart data into other file
+// and separate the cart data into other file - Module
+// and step Ⅱ: Encapsulation
+
+// updateCartQuantity() handles updating the webpage rather than managing the cart data. So it doesn't need to be moved to cart.js
+function updateCartQuantity() {
+  let cartQuantity = 0;
+  cart.forEach((cartItem) => {
+    cartQuantity += cartItem.quantity;
+  });
+
+  document.querySelector(".js-cart-quantity").innerHTML = cartQuantity;
+}
+
 document.querySelectorAll(".js-add-to-cart").forEach((addToCartButton) => {
   addToCartButton.addEventListener("click", () => {
     const productId = addToCartButton.dataset.productId;
 
-    let matchingItem;
-    cart.forEach((item) => {
-      if (productId === item.productId) {
-        matchingItem = item;
-      }
-    });
+    addToCart(productId);
 
-    if (matchingItem) {
-      matchingItem.quantity++;
-    } else {
-      cart.push({ productId: productId, quantity: 1 });
-    }
-
-    let cartTotalQuantity = 0;
-    cart.forEach((item) => {
-      cartTotalQuantity += item.quantity;
-    });
-
-    document.querySelector(".js-cart-quantity").innerHTML = cartTotalQuantity;
+    updateCartQuantity();
   });
 });
