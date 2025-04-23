@@ -118,6 +118,8 @@ export function renderOrderSummary() {
       removeFromCart(productId);
 
       renderPaymentSummary();
+
+      renderCheckoutHeader();
     });
   });
 
