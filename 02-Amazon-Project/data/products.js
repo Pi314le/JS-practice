@@ -56,6 +56,38 @@ class Clothing extends Product {
   }
 }
 
+/*
+const date = new Date();
+console.log(date);
+console.log(date.toLocaleTimeString());
+*/
+
+/*
+console.log(this);  // undefined
+const object2 = {
+  a: 2,
+  b: this.a,
+};
+*/
+/*
+function logThis(param1, param2) {
+  console.log(this);
+  const a = param2;
+  console.log(a);
+}
+logThis();
+// .call will call the function and use the first param to set the value of this
+logThis.call("hello");
+
+console.log(this); // undefined (no object to point to)
+const object3 = {
+  method: () => {
+    console.log(this); // undefined
+  },
+};
+object3.method();
+*/
+
 // convert the objects of an array into a class
 // and .map will return the new array
 export const products = [
