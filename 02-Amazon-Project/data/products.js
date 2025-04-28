@@ -32,6 +32,28 @@ class Product {
   getPrice() {
     return `$${formatCurrency(this.priceCents)}`;
   }
+
+  extraInfoHTML() {
+    return "";
+  }
+}
+
+class Clothing extends Product {
+  sizeChartLink;
+
+  constructor(productDetails) {
+    // super() is used to call the constructor of the parent class. So we also need to give it the parameters
+    super(productDetails);
+    this.sizeChartLink = productDetails.sizeChartLink;
+  }
+
+  extraInfoHTML() {
+    // super.extraInfoHTML();
+    // _blank is used to open the link in a new tab
+    return `
+    <a href="${this.sizeChartLink}" target="_blank">Size chart</a>
+      `;
+  }
 }
 
 // convert the objects of an array into a class
@@ -508,6 +530,10 @@ export const products = [
     keywords: ["sweaters", "hoodies", "apparel", "mens"],
   },
 ].map((productDetails) => {
+  // use productDetails.type to determine which class to use, clothing or product.
+  // productDetails.type === "clothing" ? new Clothing(productDetails) : new Product(productDetails);
+  if (productDetails.type === "clothing") {
+    return new Clothing(productDetails);
+  }
   return new Product(productDetails);
 });
-// console.log(products);
