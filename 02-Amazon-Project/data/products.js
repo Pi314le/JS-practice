@@ -88,6 +88,32 @@ const object3 = {
 object3.method();
 */
 
+// load products from the backend
+export let products = [];
+
+export function loadProducts(fun) {
+  const xhr = new XMLHttpRequest();
+  xhr.addEventListener("load", () => {
+    // the response is JSON data, we need convert it to a JS object
+    // and use productDetails.type to determine which class to use, clothing or product.
+    products = JSON.parse(xhr.response).map((productDetails) => {
+      if (productDetails.type === "clothing") {
+        return new Clothing(productDetails);
+      }
+      return new Product(productDetails);
+    });
+
+    console.log("load products");
+
+    fun();
+  });
+  xhr.open("GET", "https://supersimplebackend.dev/products");
+  xhr.send();
+}
+
+// convert the products objects of an array into a class
+
+/*
 // convert the objects of an array into a class
 // and .map will return the new array
 export const products = [
@@ -560,12 +586,13 @@ export const products = [
     },
     priceCents: 2400,
     keywords: ["sweaters", "hoodies", "apparel", "mens"],
-  },
-].map((productDetails) => {
-  // use productDetails.type to determine which class to use, clothing or product.
-  // productDetails.type === "clothing" ? new Clothing(productDetails) : new Product(productDetails);
-  if (productDetails.type === "clothing") {
-    return new Clothing(productDetails);
+    },
+    ].map((productDetails) => {
+      // use productDetails.type to determine which class to use, clothing or product.
+      // productDetails.type === "clothing" ? new Clothing(productDetails) : new Product(productDetails);
+      if (productDetails.type === "clothing") {
+        return new Clothing(productDetails);
   }
   return new Product(productDetails);
 });
+*/
