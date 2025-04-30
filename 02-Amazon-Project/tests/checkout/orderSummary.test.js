@@ -1,5 +1,6 @@
 import { renderOrderSummary } from "../../scripts/checkout/orderSummary.js";
 import { loadFromStorage, cart } from "../../data/cart.js";
+import { loadProducts } from "../../data/products.js";
 
 describe("test suite: renderOrderSummary", () => {
   // hooks
@@ -7,6 +8,20 @@ describe("test suite: renderOrderSummary", () => {
   const productId1 = "e43638ce-6aa0-4b85-b27f-e1d07eb678c6";
   const productId2 = "15b6fc6f-327a-4ec4-896f-486349e85a3d";
   const productId3 = "83d4ca15-0f35-48f5-b7a3-1ea210004f2e";
+
+  // load the products before all tests
+  // 1. load the products first
+  // 2. then call done()
+  // 3. then go to the next step - run the tests
+  beforeAll((done) => {
+    // this send request function is async, but we don’t use callback in test.We use `done()` function provided by jasmine to wait for the async function to finish before running the test.
+    loadProducts(() => {
+      done();
+    });
+    // done() lets us control when to go to the next step.
+    // if we don't call done() here, we will keep waiting forever, don't go to next step.
+  });
+
   beforeEach(() => {
     // when we click delete button, removeFromCart() will be run and saveToStorage() is inside the function. BUT we don’t want to modify localStorage in test. So mock `localStorage.setItem()` in test
     spyOn(localStorage, "setItem");

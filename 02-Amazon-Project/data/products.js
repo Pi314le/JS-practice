@@ -95,6 +95,7 @@ export function loadProducts(fun) {
   const xhr = new XMLHttpRequest();
   xhr.addEventListener("load", () => {
     // the response is JSON data, we need convert it to a JS object
+    // then convert the products objects of an array into a class
     // and use productDetails.type to determine which class to use, clothing or product.
     products = JSON.parse(xhr.response).map((productDetails) => {
       if (productDetails.type === "clothing") {
@@ -105,13 +106,11 @@ export function loadProducts(fun) {
 
     console.log("load products");
 
-    fun();
+    fun(); //callback
   });
   xhr.open("GET", "https://supersimplebackend.dev/products");
   xhr.send();
 }
-
-// convert the products objects of an array into a class
 
 /*
 // convert the objects of an array into a class

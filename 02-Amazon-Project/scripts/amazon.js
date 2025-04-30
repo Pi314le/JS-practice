@@ -9,7 +9,7 @@ loadProducts(renderProductsGrid);
 
 // How to wait for the data to be loaded?
 // 1. Put the rest of the code in a function `renderProductsGrid()`
-// 2. call it when the data is loaded - give this function to loadProducts() function -> to be a parameter of loadProducts()  [functions are values in JS, so we can use a function as a parameter of another function]
+// 2. call it when the data is loaded - give this function to loadProducts() function behind loaded response code-> to be a parameter of loadProducts()  [functions are values in JS, so we can use a function as a parameter of another function]
 
 function renderProductsGrid() {
   // step 2
