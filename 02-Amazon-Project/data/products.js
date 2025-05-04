@@ -91,6 +91,41 @@ object3.method();
 // load products from the backend
 export let products = [];
 
+export function loadProductsFetch() {
+  // fetch is a built-in function to make HTTP requests
+  // and by default it will make a GET request
+  // and by default it will return a promise
+  // save the response data inside a parameter in inner function of .then()
+  const promise = fetch("https://supersimplebackend.dev/products")
+    .then((response) => {
+      // response.json() will convert the response JSON into an array NOT JSON data. It basically did the same thing as JSON.parse() on the response.
+      // and it is also a promise
+      return response.json();
+      // when response.json() is done, it's going to give us the data that's attached to the response (附加到response中), and after return this promise(response.json()), we can save the data inside the parameter of the next .then() naming it `productsData`.
+    })
+    .then((productsData) => {
+      // the data is an array of products, we just need to convert the products objects of an array into a class
+      products = productsData.map((productDetails) => {
+        if (productDetails.type === "clothing") {
+          return new Clothing(productDetails);
+        }
+        return new Product(productDetails);
+      });
+
+      console.log("load products");
+
+      // 1. To do something/add more steps after this conversion step/promise, we can return this entire promise out of the function.
+      // So make it easy to read, save it into a variable/const called `promise` and return it at the end of the function.
+    });
+  return promise;
+}
+/*
+// 2. So when we call loadProductsFetch(), it will return the promise,we can add then() behind it to do another step with the data.
+loadProductsFetch().then(() => {
+  console.log("next step");
+});
+*/
+
 export function loadProducts(fun) {
   const xhr = new XMLHttpRequest();
   xhr.addEventListener("load", () => {

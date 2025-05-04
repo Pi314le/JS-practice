@@ -1,13 +1,30 @@
 import { renderOrderSummary } from "./checkout/orderSummary.js";
 import { renderPaymentSummary } from "./checkout/paymentSummary.js";
 import { renderCheckoutHeader } from "./checkout/checkoutHeader.js";
-import { loadProducts } from "../data/products.js";
+import { loadProducts, loadProductsFetch } from "../data/products.js";
 import { loadCart } from "../data/cart.js";
 // import "../data/cart-oop.js";
 // import "../data/cart-class.js";
 // import "../data/backend-practice.js";
 
 // wait for all promises to finish before going to the next step, instead of waiting for each promise to finish one by one
+// loadProductsFetch(): fetch + promises and will return a promise
+Promise.all([
+  loadProductsFetch(),
+  new Promise((resolve) => {
+    loadCart(() => {
+      resolve();
+    });
+  }),
+]).then((values) => {
+  console.log(values); // ["value1", undefined]
+
+  renderOrderSummary();
+  renderPaymentSummary();
+  renderCheckoutHeader();
+});
+
+/* loadProducts(): XML + callbacks
 Promise.all([
   // give an array to add multiple promises to run/wait for in parallel
   new Promise((resolve) => {
@@ -27,6 +44,7 @@ Promise.all([
   renderPaymentSummary();
   renderCheckoutHeader();
 });
+*/
 
 /*
 // add some asynchronous code inner function of Promise function

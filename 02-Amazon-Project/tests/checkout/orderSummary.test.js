@@ -1,6 +1,6 @@
 import { renderOrderSummary } from "../../scripts/checkout/orderSummary.js";
 import { loadFromStorage, cart } from "../../data/cart.js";
-import { loadProducts } from "../../data/products.js";
+import { loadProducts, loadProductsFetch } from "../../data/products.js";
 
 describe("test suite: renderOrderSummary", () => {
   // hooks
@@ -14,12 +14,17 @@ describe("test suite: renderOrderSummary", () => {
   // 2. then call done()
   // 3. then go to the next step - run the tests
   beforeAll((done) => {
+    loadProductsFetch().then(() => {
+      done();
+    });
+    /*
     // this send request function is async, but we don’t use callback in test.We use `done()` function provided by jasmine to wait for the async function to finish before running the test.
     loadProducts(() => {
       done();
     });
     // done() lets us control when to go to the next step.
     // if we don't call done() here, we will keep waiting forever, don't go to next step.
+*/
   });
 
   beforeEach(() => {
