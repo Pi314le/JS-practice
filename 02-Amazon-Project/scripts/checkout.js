@@ -10,16 +10,30 @@ import { loadCart } from "../data/cart.js";
 async function loadPage() {
   // console.log("load page");
 
-  // load products
-  // loadProductsFetch().then(() => {}); // use .then() to wait for the promise to finish
-  await loadProductsFetch(); // use await to wait for the promise to finish
+  // put the code that could cause an error in try/catch block
+  try {
+    // throw "error1";
 
-  // load cart
-  const value = await new Promise((resolve) => {
-    loadCart(() => {
-      resolve("value3");
+    // load products
+    // loadProductsFetch().then(() => {}); // use .then() to wait for the promise to finish
+    await loadProductsFetch(); // use await to wait for the promise to finish
+
+    // load cart
+    const value = await new Promise((resolve, reject) => {
+      // throw "error2";  // way 1 of creating an error in a promise
+
+      // this inner function will run in the future
+      // when loadCart() finished loading, we're going to run the callback function
+      loadCart(() => {
+        // reject("error3"); // way 2 of creating an error in the future in a promise
+        resolve("value3");
+      });
     });
-  });
+  } catch (error) {
+    // catch is going to get one parameter, the error that was thrown in the try block
+    console.log("Unexpected error. Please try again later.");
+    console.log(error);
+  }
 
   // render the page - the rest of the code that not asynchronous code. it's a next step
   renderOrderSummary();

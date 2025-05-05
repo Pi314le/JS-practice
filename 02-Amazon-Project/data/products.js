@@ -116,9 +116,14 @@ export function loadProductsFetch() {
 
       // 1. To do something/add more steps after this conversion step/promise, we can return this entire promise out of the function.
       // So make it easy to read, save it into a variable/const called `promise` and return it at the end of the function.
+    })
+    .catch((error) => {
+      console.log("Unexpected error. Please try again later.");
+      console.log(error);
     });
   return promise;
 }
+
 /*
 // 2. So when we call loadProductsFetch(), it will return the promise,we can add then() behind it to do another step with the data.
 loadProductsFetch().then(() => {
@@ -143,10 +148,16 @@ export function loadProducts(fun) {
 
     fun(); //callback
   });
+
+  xhr.addEventListener("error", (error) => {
+    console.log("Unexpected error. Please try again later.");
+    console.log(error);
+  });
+
+  // simulate a network error - this url doesn't exist
   xhr.open("GET", "https://supersimplebackend.dev/products");
   xhr.send();
 }
-
 /*
 // convert the objects of an array into a class
 // and .map will return the new array
