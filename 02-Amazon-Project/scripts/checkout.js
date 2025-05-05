@@ -7,6 +7,34 @@ import { loadCart } from "../data/cart.js";
 // import "../data/cart-class.js";
 // import "../data/backend-practice.js";
 
+async function loadPage() {
+  // console.log("load page");
+
+  // load products
+  // loadProductsFetch().then(() => {}); // use .then() to wait for the promise to finish
+  await loadProductsFetch(); // use await to wait for the promise to finish
+
+  // load cart
+  const value = await new Promise((resolve) => {
+    loadCart(() => {
+      resolve("value3");
+    });
+  });
+
+  // render the page - the rest of the code that not asynchronous code. it's a next step
+  renderOrderSummary();
+  renderPaymentSummary();
+  renderCheckoutHeader();
+
+  // return "value2"; // return a value to the next step
+}
+loadPage();
+// loadPage().then((value) => {
+//   console.log("next step");
+//   console.log(value); // "value2"
+// });
+
+/*
 // wait for all promises to finish before going to the next step, instead of waiting for each promise to finish one by one
 // loadProductsFetch(): fetch + promises and will return a promise
 Promise.all([
@@ -23,6 +51,7 @@ Promise.all([
   renderPaymentSummary();
   renderCheckoutHeader();
 });
+*/
 
 /* loadProducts(): XML + callbacks
 Promise.all([
